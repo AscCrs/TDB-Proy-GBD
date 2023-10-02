@@ -13,9 +13,18 @@ import java.util.Scanner;
  */
 public class GBD {
     public static void main(String[] args) {
-        String schemaN;
+        String schemaN, ip, port;
         MySQLConnection connSQL = new MySQLConnection();
         Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Ingrese una ip: ");
+        ip = sc.nextLine();
+        System.out.println("Ingresa un puerto: ");
+        port = sc.nextLine();
+        
+        connSQL.setIp(ip);
+        connSQL.setPort(port);
+        
         try {
             connSQL.openConnection();
             System.out.print("Ingrese el nombre del schema: ");

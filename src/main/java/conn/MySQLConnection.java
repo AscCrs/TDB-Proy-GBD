@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package conn;
+import static java.lang.StringTemplate.STR;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,16 +16,26 @@ import java.sql.ResultSet;
  */
 public class MySQLConnection {
     // Configura tus credenciales y detalles de conexión
-    private static final String URL = "jdbc:mysql://localhost:3306/";
+    private static String ipConn = "";
     
+    private static String portConn = "";
+    
+    private static final String URL = STR."jdbc:mysql://\{ipConn}\{portConn}/";
     private static final String USER = "root";
-    
     private static final String PASSWORD = "useradmin";
     
     private String nombreSchema;
     
     private static Connection connection; 
     private static Statement statement;
+    
+    public void setIp(String ip) {
+        this.ipConn = ip;
+    }
+    
+    public void setPort(String port) {
+        this.portConn = port;
+    }
     
     public void setSchema(String nombre) {
         this.nombreSchema = nombre;
