@@ -2,7 +2,7 @@
 
 ## Requisitos
 <ul>
-    <li>Java JDK-17</li> 
+    <li>Java JDK-21</li> 
     <li>Netbeans 15 en adelante</li>
     <li>MySQL Workbench</li>
     <li>MySQLConnectorJ (JDBC) 8.0</li>
