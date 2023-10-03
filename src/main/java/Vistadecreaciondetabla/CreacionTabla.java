@@ -6,7 +6,8 @@ import Vista.TextPrompt;
 /**
  *
  * @author Brian
- */
+ */ 
+//probando clase de creeacion de tbala
 public class CreacionTabla extends javax.swing.JFrame {
 
     /**
