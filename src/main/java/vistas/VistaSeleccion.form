@@ -56,7 +56,7 @@
                                   <Component id="DNSBox" max="32767" attributes="0"/>
                                   <Component id="ServicioTextField" pref="227" max="32767" attributes="0"/>
                                   <Component id="UsuarioTextField" max="32767" attributes="0"/>
-                                  <Component id="ContraseñaField" max="32767" attributes="0"/>
+                                  <Component id="ContrasenaField" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -99,7 +99,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="ContraselaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ContraseñaField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="ContrasenaField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="59" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -236,6 +236,15 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="ServicioTextField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="cc" green="cc" red="cc" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="33" type="rgb"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ServicioTextFieldActionPerformed"/>
       </Events>
@@ -255,7 +264,7 @@
         <Property name="text" type="java.lang.String" value="Contrase&#xf1;a:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="Contrase&#xf1;aField">
+    <Component class="javax.swing.JPasswordField" name="ContrasenaField">
     </Component>
     <Component class="javax.swing.JButton" name="ConectarButton">
       <Properties>

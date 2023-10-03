@@ -1,10 +1,31 @@
 package vistas;
 
+import conn.MySQLConnection;
+import java.sql.SQLException;
+
 /**
  *
  * @author Brian
  */
 public class VistaSeleccion extends javax.swing.JFrame {
+
+    private final MySQLConnection conexion = new MySQLConnection();
+
+    public void inicializarConexion() {
+        try {
+            conexion.openConnection();
+        } catch (SQLException e) {
+            System.out.println("El error es: " + e.getMessage());
+        }
+    }
+
+    public void cerrarConexion() {
+        try {
+            conexion.closeConnection();
+        } catch (SQLException e) {
+            System.out.println("El error es: " + e.getMessage());
+        }
+    }
 
     /**
      * Creates new form VistaSeleccion
@@ -37,7 +58,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
         UsuarioLabel = new javax.swing.JLabel();
         UsuarioTextField = new javax.swing.JTextField();
         ContraselaLabel = new javax.swing.JLabel();
-        ContraseñaField = new javax.swing.JPasswordField();
+        ContrasenaField = new javax.swing.JPasswordField();
         ConectarButton = new javax.swing.JButton();
         CancelarButton = new javax.swing.JButton();
 
@@ -118,6 +139,9 @@ public class VistaSeleccion extends javax.swing.JFrame {
 
         ServicioLabel.setText("Servicio:");
 
+        ServicioTextField.setEditable(false);
+        ServicioTextField.setBackground(new java.awt.Color(204, 204, 204));
+        ServicioTextField.setForeground(new java.awt.Color(51, 51, 51));
         ServicioTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ServicioTextFieldActionPerformed(evt);
@@ -177,7 +201,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
                                     .addComponent(DNSBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(ServicioTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                                     .addComponent(UsuarioTextField)
-                                    .addComponent(ContraseñaField)))
+                                    .addComponent(ContrasenaField)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(ConectarButton)
@@ -208,7 +232,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ContraselaLabel)
-                    .addComponent(ContraseñaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ContrasenaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ConectarButton)
@@ -236,11 +260,14 @@ public class VistaSeleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_DNSBoxActionPerformed
 
     private void CancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarButtonActionPerformed
+        cerrarConexion();
         System.exit(0);
     }//GEN-LAST:event_CancelarButtonActionPerformed
 
     private void ConectarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConectarButtonActionPerformed
-
+        inicializarConexion();
+        conexion.setUser(this.UsuarioTextField.getText());
+        conexion.setPassword(this.ContrasenaField.getText());
     }//GEN-LAST:event_ConectarButtonActionPerformed
 
     private void UsuarioTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioTextFieldActionPerformed
@@ -291,7 +318,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
     private javax.swing.JButton CancelarButton;
     private javax.swing.JButton ConectarButton;
     private javax.swing.JLabel ContraselaLabel;
-    private javax.swing.JPasswordField ContraseñaField;
+    private javax.swing.JPasswordField ContrasenaField;
     private javax.swing.JComboBox<String> DNSBox;
     private javax.swing.JLabel DNSLabel;
     private javax.swing.JButton Exitbutton;
