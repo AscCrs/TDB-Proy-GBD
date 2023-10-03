@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
+ 
 
 import vistas.TextPrompt;
 import vistas.TextPrompt;
