@@ -1,8 +1,4 @@
-
-package Vista;
-
-
-
+package vistas;
 
 /**
  *
@@ -16,10 +12,9 @@ public class VistaSeleccion extends javax.swing.JFrame {
     public VistaSeleccion() {
         initComponents();
         this.setLocationRelativeTo(null);
-        TextPrompt placeserv = new TextPrompt("Mysql@127.0.0.1:3306",ServicioTextField);
-        TextPrompt placeusr = new TextPrompt("Dueño de la conexión",UsuarioTextField);
-       
-        
+        TextPrompt placeserv = new TextPrompt("Mysql@127.0.0.1:3306", ServicioTextField);
+        TextPrompt placeusr = new TextPrompt("Dueño de la conexión", UsuarioTextField);
+
     }
 
     /**
@@ -224,11 +219,11 @@ public class VistaSeleccion extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitbuttonActionPerformed
 
     private void MinimizarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MinimizarButtonActionPerformed
-     
+
     }//GEN-LAST:event_MinimizarButtonActionPerformed
 
     private void ServicioTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServicioTextFieldActionPerformed
-     
+
     }//GEN-LAST:event_ServicioTextFieldActionPerformed
 
     private void DNSBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DNSBoxActionPerformed
@@ -241,7 +236,6 @@ public class VistaSeleccion extends javax.swing.JFrame {
 
     private void ConectarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConectarButtonActionPerformed
 
-     
     }//GEN-LAST:event_ConectarButtonActionPerformed
 
     private void UsuarioTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioTextFieldActionPerformed
@@ -259,7 +253,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
