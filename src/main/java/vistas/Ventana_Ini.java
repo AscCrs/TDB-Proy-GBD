@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
- 
 
+import conn.MySQLConnection;
 import vistas.TextPrompt;
 import vistas.TextPrompt;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,21 +19,39 @@ import java.util.Set;
  */
 public class Ventana_Ini extends javax.swing.JFrame {
 
+    private final MySQLConnection conexion = new MySQLConnection();
+
+    public void inicializarConexion() {
+        try {
+            conexion.openConnection();
+        } catch (SQLException e) {
+            System.out.println("El error es: " + e.getMessage());
+        }
+    }
+
+    public void cerrarConexion() {
+        try {
+            conexion.closeConnection();
+        } catch (SQLException e) {
+            System.out.println("El error es: " + e.getMessage());
+        }
+    }
+
     /**
-     * Creates new form Ventana_Ini
+     * Creates new form
      */
     public Ventana_Ini() {
         initComponents();
-     //   setIconImage(getIconImage());
-       TextPrompt placeDns = new TextPrompt("Ingrese la DNS", dnsTextbox);
+        //   setIconImage(getIconImage());
+        TextPrompt placeDns = new TextPrompt("Ingrese la DNS", dnsTextbox);
         TextPrompt placeHost = new TextPrompt("Ingrese el Host", hostTextbox);
-        TextPrompt placePort= new TextPrompt("Ingrese la puerto", portTextbox);
-        TextPrompt placeusr = new TextPrompt("Ingrese su Usu", usuTextbox);
+        TextPrompt placePort = new TextPrompt("Ingrese el puerto", portTextbox);
+        TextPrompt placeusr = new TextPrompt("Ingrese su Usuario", usuTextbox);
         TextPrompt placecon = new TextPrompt("Ingrese su contraseña", contraTextbox);
     }
 
     //Icono del Jframe
-   /*@Override
+    /*@Override
     public Image getIconImage(){
     Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Pictures/Logo.png"));
     return retValue;
@@ -63,11 +82,11 @@ public class Ventana_Ini extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         portTextbox = new javax.swing.JTextField();
         usuTextbox = new javax.swing.JTextField();
-        contraTextbox = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        contraTextbox = new javax.swing.JPasswordField();
 
         TextoConexion.setText("Selecionar Conexión");
 
@@ -119,6 +138,11 @@ public class Ventana_Ini extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(89, 179, 10));
         jButton1.setText("Conectar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(179, 0, 56));
         jButton2.setText("Cancelar");
@@ -161,7 +185,6 @@ public class Ventana_Ini extends javax.swing.JFrame {
 
         jLabel6.setText("PORT:");
 
-        usuTextbox.setForeground(new java.awt.Color(153, 153, 153));
         usuTextbox.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 usuTextboxFocusGained(evt);
@@ -172,8 +195,6 @@ public class Ventana_Ini extends javax.swing.JFrame {
                 usuTextboxActionPerformed(evt);
             }
         });
-
-        contraTextbox.setForeground(new java.awt.Color(153, 153, 153));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -297,7 +318,9 @@ public class Ventana_Ini extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        cerrarConexion();
+        System.exit(0);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void conexItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conexItem1ActionPerformed
@@ -317,7 +340,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
         /*if(jTextField1.getText().equals("Ingrese Usuario"))
         {
             jTextfield1.Set<String> hashSet = new HashSet<String>();
-            
+
         }*/
     }//GEN-LAST:event_usuTextboxFocusGained
 
@@ -347,6 +370,14 @@ public class Ventana_Ini extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        conexion.setIp(this.hostTextbox.getText());
+        conexion.setPort(this.portTextbox.getText());
+        conexion.setUser(this.usuTextbox.getText());
+        conexion.setPassword(this.contraTextbox.getText());
+        inicializarConexion();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,7 +385,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -387,7 +418,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
     private javax.swing.JButton MinimizarButton;
     private javax.swing.JLabel TextoConexion;
     private javax.swing.JComboBox<String> conexItem1;
-    private javax.swing.JTextField contraTextbox;
+    private javax.swing.JPasswordField contraTextbox;
     private javax.swing.JTextField dnsTextbox;
     private javax.swing.JTextField hostTextbox;
     private javax.swing.JButton jButton1;
