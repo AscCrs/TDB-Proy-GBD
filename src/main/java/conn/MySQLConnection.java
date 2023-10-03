@@ -29,6 +29,10 @@ public class MySQLConnection {
     private String nombreSchema;
 
     private static Connection connection;
+
+    private static String strStatement;
+    private String schemaName;
+
     private static Statement statement;
 
     public void setIp(String ip) {
@@ -48,19 +52,43 @@ public class MySQLConnection {
     }
 
     public void setSchema(String nombre) {
-        this.nombreSchema = nombre;
+        this.schemaName = nombre;
     }
 
+    public String getStatement() {
+        return this.strStatement;
+    }
+
+    // Metodo que crea el esquema
     public void connectSchema() {
         try {
-            String createSchemaSQL = "CREATE SCHEMA IF NOT EXISTS " + this.nombreSchema;
+            String createSchemaSQL = "DROP " + this.schemaName;
+            statement.executeUpdate(createSchemaSQL);
+            createSchemaSQL += "CREATE SCHEMA IF NOT EXISTS " + this.schemaName;
             statement.executeUpdate(createSchemaSQL);
 
             System.out.println("Se creo correctamente el schema: " + this.nombreSchema);
+
+            System.out.println("Se creo correctamente el schema: " + this.schemaName);
         } catch (SQLException e) {
             System.err.print("Error al crear el schema: " + e.getMessage());
         }
     }
+
+    // Metodo para crear una tabla
+    public void createTable(String nombreTabla) {
+        try {
+            this.strStatement = STR.
+            "CREATE TABLE IF NOT EXIST \{nombreTabla}";
+            statement.executeUpdate(this.strStatement);
+            System.out.println("Se creo correctamente la tabla");
+        } catch (SQLException e) {
+            System.err.print("Error al crear la tabla: " + e.getMessage());
+        }
+    }
+
+    // Metodo para mostrar los esquemas disponibles
+    >>>>>>> main
 
     public void showSchemas() {
         try {
