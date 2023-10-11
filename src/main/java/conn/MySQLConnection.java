@@ -21,7 +21,7 @@ public class MySQLConnection {
     private static String strStatement;
     private String schemaName;
     
-    private static final String URL = STR."jdbc:mysql://\{ipConn}\{portConn}/";
+    private static final String URL = "jdbc:mysql://"+ ipConn + ":" + portConn + "/";
     private static final String USER = "root";
     private static final String PASSWORD = "useradmin";
     
@@ -61,7 +61,7 @@ public class MySQLConnection {
     // Metodo para crear una tabla
     public void createTable(String nombreTabla) {
         try {  
-            this.strStatement = STR."CREATE TABLE IF NOT EXIST \{nombreTabla}";
+            this.strStatement = "CREATE TABLE IF NOT EXIST" + nombreTabla;
             statement.executeUpdate(this.strStatement);
             System.out.println("Se creo correctamente la tabla");
         } catch (SQLException e) {

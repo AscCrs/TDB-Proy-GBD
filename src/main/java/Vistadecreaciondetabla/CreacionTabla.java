@@ -1,7 +1,7 @@
 
 package Vistadecreaciondetabla;
 
-import Vista.TextPrompt;
+import vistas.TextPrompt;
 
 /**
  *
