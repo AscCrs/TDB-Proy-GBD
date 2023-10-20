@@ -313,6 +313,12 @@ public class CreacionTabla extends javax.swing.JFrame {
             }
         });
 
+        NombreEsquema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NombreEsquemaActionPerformed(evt);
+            }
+        });
+
         CotejamientoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "utf8mb4_unicode_ci" }));
         CotejamientoBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -526,6 +532,10 @@ public class CreacionTabla extends javax.swing.JFrame {
     private void CotejamientoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CotejamientoBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CotejamientoBoxActionPerformed
+
+    private void NombreEsquemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreEsquemaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreEsquemaActionPerformed
 
     /**
      * @param args the command line arguments

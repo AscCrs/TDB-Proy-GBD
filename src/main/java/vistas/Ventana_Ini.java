@@ -5,18 +5,22 @@
 package vistas;
  
 
-import vistas.TextPrompt;
-import vistas.TextPrompt;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.HashSet;
 import java.util.Set;
+import conn.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author chris
  */
 public class Ventana_Ini extends javax.swing.JFrame {
+    private Conexion conn;
 
     /**
      * Creates new form Ventana_Ini
@@ -24,11 +28,12 @@ public class Ventana_Ini extends javax.swing.JFrame {
     public Ventana_Ini() {
         initComponents();
      //   setIconImage(getIconImage());
+       this.setLocationRelativeTo(null);
        TextPrompt placeDns = new TextPrompt("Ingrese la DNS", dnsTextbox);
-        TextPrompt placeHost = new TextPrompt("Ingrese el Host", hostTextbox);
-        TextPrompt placePort= new TextPrompt("Ingrese la puerto", portTextbox);
-        TextPrompt placeusr = new TextPrompt("Ingrese su Usu", usuTextbox);
-        TextPrompt placecon = new TextPrompt("Ingrese su contraseña", contraTextbox);
+       TextPrompt placeHost = new TextPrompt("Ingrese el Host", hostTextbox);
+       TextPrompt placePort= new TextPrompt("Ingrese la puerto", portTextbox);
+       TextPrompt placeusr = new TextPrompt("Ingrese su Usu", usuTextbox);
+       TextPrompt placecon = new TextPrompt("Ingrese su contraseña", contraTextbox);
     }
 
     //Icono del Jframe
@@ -50,8 +55,8 @@ public class Ventana_Ini extends javax.swing.JFrame {
         Exitbutton = new javax.swing.JButton();
         MinimizarButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        connectBtn = new javax.swing.JButton();
+        cancelBtn = new javax.swing.JButton();
         conexItem1 = new javax.swing.JComboBox<>();
         dnsTextbox = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -68,6 +73,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        conexionesBtn = new javax.swing.JButton();
 
         TextoConexion.setText("Selecionar Conexión");
 
@@ -117,19 +123,26 @@ public class Ventana_Ini extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setUndecorated(true);
 
-        jButton1.setBackground(new java.awt.Color(89, 179, 10));
-        jButton1.setText("Conectar");
-
-        jButton2.setBackground(new java.awt.Color(179, 0, 56));
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        connectBtn.setBackground(new java.awt.Color(89, 179, 10));
+        connectBtn.setForeground(new java.awt.Color(255, 255, 255));
+        connectBtn.setText("Conectar");
+        connectBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                connectBtnActionPerformed(evt);
+            }
+        });
+
+        cancelBtn.setBackground(new java.awt.Color(179, 0, 56));
+        cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelBtn.setText("Cancelar");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelBtnActionPerformed(evt);
             }
         });
 
         conexItem1.setForeground(new java.awt.Color(153, 153, 153));
-        conexItem1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione su conexion" }));
+        conexItem1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione su conexion", "JDBC MySQL", "Postgree SQL" }));
         conexItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 conexItem1ActionPerformed(evt);
@@ -203,11 +216,11 @@ public class Ventana_Ini extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,43 +233,53 @@ public class Ventana_Ini extends javax.swing.JFrame {
                 .addGap(10, 10, 10))
         );
 
+        conexionesBtn.setBackground(new java.awt.Color(8, 51, 162));
+        conexionesBtn.setForeground(new java.awt.Color(255, 255, 255));
+        conexionesBtn.setText("Buscar Conexiónes");
+        conexionesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conexionesBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jButton1)
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton2)
-                        .addGap(38, 38, 38))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
-                            .addComponent(jLabel5)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel6)
                                 .addComponent(jLabel3))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addComponent(jLabel4)))
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(connectBtn))))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(conexItem1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dnsTextbox)
-                            .addComponent(portTextbox)
-                            .addComponent(hostTextbox)
-                            .addComponent(usuTextbox)
-                            .addComponent(contraTextbox))))
+                        .addComponent(jLabel5)))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(conexionesBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(cancelBtn))
+                    .addComponent(conexItem1, javax.swing.GroupLayout.Alignment.LEADING, 0, 204, Short.MAX_VALUE)
+                    .addComponent(dnsTextbox, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(portTextbox, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hostTextbox, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(usuTextbox, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contraTextbox, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(76, 76, 76))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,17 +311,19 @@ public class Ventana_Ini extends javax.swing.JFrame {
                     .addComponent(contraTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(connectBtn)
+                    .addComponent(cancelBtn)
+                    .addComponent(conexionesBtn))
                 .addGap(19, 19, 19))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void conexItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conexItem1ActionPerformed
         // TODO add your handling code here:
@@ -347,6 +372,48 @@ public class Ventana_Ini extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
+        // TODO add your handling code here:
+        if (this.conexItem1.getSelectedItem().equals("JDBC MySQL")) {
+            try { 
+                setSQLConn();
+            } catch (SQLException ex) {
+                Logger.getLogger(Ventana_Ini.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (this.conexItem1.getSelectedItem().equals("Postgree SQL")) {
+            setPostConn();
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de conexion");
+        }
+    }//GEN-LAST:event_connectBtnActionPerformed
+
+    private void conexionesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conexionesBtnActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        setVisible(false);
+        VistaSeleccion conexiones = new VistaSeleccion();
+        conexiones.setVisible(true);
+    }//GEN-LAST:event_conexionesBtnActionPerformed
+
+    private void setSQLConn() throws SQLException {
+        conn = new Conexion();
+        if ((this.hostTextbox.getText().equals("")) && (this.portTextbox.getText().equals(""))) this.conn.setURL();
+        else this.conn.setURL("mysql", this.hostTextbox.getText(), this.portTextbox.getText());
+        if (!(this.usuTextbox.getText().equals(""))) {
+            this.conn.setUser(this.usuTextbox.getText());
+            if (!(this.contraTextbox.getText().equals(""))) this.conn.setPassword(this.contraTextbox.getText());
+        }
+        this.conn.setNombreCon(this.dnsTextbox.getText());
+        
+        MySQLConnection conexion = new MySQLConnection();
+        conexion.setConnection(this.conn);
+        conexion.openConnection();
+    }
+    
+    private void setPostConn() {
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -386,12 +453,13 @@ public class Ventana_Ini extends javax.swing.JFrame {
     private javax.swing.JButton Exitbutton;
     private javax.swing.JButton MinimizarButton;
     private javax.swing.JLabel TextoConexion;
+    private javax.swing.JButton cancelBtn;
     private javax.swing.JComboBox<String> conexItem1;
+    private javax.swing.JButton conexionesBtn;
+    private javax.swing.JButton connectBtn;
     private javax.swing.JTextField contraTextbox;
     private javax.swing.JTextField dnsTextbox;
     private javax.swing.JTextField hostTextbox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;

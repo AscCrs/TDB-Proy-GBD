@@ -1,20 +1,39 @@
 package vistas;
 
+import conn.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Brian
  */
 public class VistaSeleccion extends javax.swing.JFrame {
-
+    private Connections conexiones = new Connections();
+    Conexion selectedConexion;
     /**
      * Creates new form VistaSeleccion
      */
     public VistaSeleccion() {
+        
+        
         initComponents();
         this.setLocationRelativeTo(null);
         TextPrompt placeserv = new TextPrompt("Mysql@127.0.0.1:3306", ServicioTextField);
         TextPrompt placeusr = new TextPrompt("Dueño de la conexión", UsuarioTextField);
-
+        
+        actualizarSelector();
+    }
+    
+    public void actualizarSelector() {
+        ArrayList<String> nombresCon;
+        nombresCon = conexiones.getNombresConexiones();
+        
+        for(String nombre: nombresCon) {
+            this.DNSBox.addItem(nombre);
+        }
     }
 
     /**
@@ -37,9 +56,10 @@ public class VistaSeleccion extends javax.swing.JFrame {
         UsuarioLabel = new javax.swing.JLabel();
         UsuarioTextField = new javax.swing.JTextField();
         ContraselaLabel = new javax.swing.JLabel();
-        ContraseñaField = new javax.swing.JPasswordField();
+        PasswordField = new javax.swing.JPasswordField();
         ConectarButton = new javax.swing.JButton();
         CancelarButton = new javax.swing.JButton();
+        EliminarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -85,6 +105,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
         BarraSuperiorLayout.setHorizontalGroup(
             BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BarraSuperiorLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addComponent(TextoConexion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(MinimizarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -96,15 +117,11 @@ public class VistaSeleccion extends javax.swing.JFrame {
             BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BarraSuperiorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BarraSuperiorLayout.createSequentialGroup()
-                        .addComponent(TextoConexion)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(BarraSuperiorLayout.createSequentialGroup()
-                        .addGroup(BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Exitbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(MinimizarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                .addGroup(BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Exitbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MinimizarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TextoConexion))
+                .addContainerGap())
         );
 
         DNSLabel.setText("DNS:");
@@ -134,7 +151,14 @@ public class VistaSeleccion extends javax.swing.JFrame {
 
         ContraselaLabel.setText("Contraseña:");
 
+        PasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PasswordFieldActionPerformed(evt);
+            }
+        });
+
         ConectarButton.setBackground(new java.awt.Color(0, 204, 0));
+        ConectarButton.setForeground(new java.awt.Color(255, 255, 255));
         ConectarButton.setText("Conectar");
         ConectarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,6 +167,7 @@ public class VistaSeleccion extends javax.swing.JFrame {
         });
 
         CancelarButton.setBackground(new java.awt.Color(255, 0, 51));
+        CancelarButton.setForeground(new java.awt.Color(255, 255, 255));
         CancelarButton.setText("Cancelar");
         CancelarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,50 +175,51 @@ public class VistaSeleccion extends javax.swing.JFrame {
             }
         });
 
+        EliminarButton.setBackground(new java.awt.Color(153, 0, 51));
+        EliminarButton.setForeground(new java.awt.Color(255, 255, 255));
+        EliminarButton.setText("Eliminar");
+        EliminarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(BarraSuperior, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(83, 83, 83)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(UsuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(ServicioLabel)
+                        .addComponent(DNSLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ContraselaLabel)
+                    .addComponent(ConectarButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(62, 62, 62)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(ServicioLabel)
-                                                .addComponent(DNSLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addComponent(UsuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(62, 62, 62)
-                                        .addComponent(ContraselaLabel)))
-                                .addGap(25, 25, 25)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(DNSBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ServicioTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                                    .addComponent(UsuarioTextField)
-                                    .addComponent(ContraseñaField)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(ConectarButton)
-                                .addGap(88, 88, 88)
-                                .addComponent(CancelarButton)))
-                        .addGap(0, 108, Short.MAX_VALUE))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(DNSBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ServicioTextField)
+                            .addComponent(UsuarioTextField)
+                            .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(BarraSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(54, 54, 54)
+                        .addComponent(EliminarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CancelarButton)))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(BarraSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DNSLabel)
                     .addComponent(DNSBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -208,12 +234,13 @@ public class VistaSeleccion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ContraselaLabel)
-                    .addComponent(ContraseñaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ConectarButton)
-                    .addComponent(CancelarButton))
-                .addGap(83, 83, 83))
+                    .addComponent(CancelarButton)
+                    .addComponent(EliminarButton))
+                .addGap(45, 45, 45))
         );
 
         pack();
@@ -233,14 +260,38 @@ public class VistaSeleccion extends javax.swing.JFrame {
 
     private void DNSBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DNSBoxActionPerformed
         // TODO add your handling code here:
+        String selectedNombre = (String) this.DNSBox.getSelectedItem();
+        if (selectedNombre != null) {
+            selectedConexion = conexiones.buscarConexion(selectedNombre);
+            if (selectedConexion != null) {
+                this.ServicioTextField.setText(selectedConexion.url);
+                this.UsuarioTextField.setText(selectedConexion.user);
+                this.PasswordField.setText(selectedConexion.password);
+            }
+        }
     }//GEN-LAST:event_DNSBoxActionPerformed
 
     private void CancelarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarButtonActionPerformed
-        System.exit(0);
+        setVisible(false);
+        Ventana_Ini frame = new Ventana_Ini();
+        frame.setVisible(true);
     }//GEN-LAST:event_CancelarButtonActionPerformed
 
     private void ConectarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConectarButtonActionPerformed
-
+        MySQLConnection conn = new MySQLConnection();
+        String selectedNombre = (String) this.DNSBox.getSelectedItem();
+        String nuevaURL = this.ServicioTextField.getText();
+        if (selectedNombre != null && !nuevaURL.isEmpty()) {
+            conexiones.editarConexion(selectedNombre, nuevaURL);
+        }
+        
+        conn.setConnection(selectedConexion);
+        
+        try {
+            conn.openConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(VistaSeleccion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ConectarButtonActionPerformed
 
     private void UsuarioTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioTextFieldActionPerformed
@@ -250,6 +301,22 @@ public class VistaSeleccion extends javax.swing.JFrame {
     private void MinimizarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MinimizarButtonMouseClicked
         this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_MinimizarButtonMouseClicked
+
+    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PasswordFieldActionPerformed
+
+    private void EliminarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarButtonActionPerformed
+        // TODO add your handling code here:
+        String selectedNombre = (String) this.DNSBox.getSelectedItem();
+        if (selectedNombre != null) {
+            conexiones.eliminarConexion(selectedNombre);
+            this.DNSBox.removeItem(selectedNombre); // Elimina el elemento del JComboBox
+        }
+        this.ServicioTextField.setText("");
+        this.UsuarioTextField.setText("");
+        this.PasswordField.setText("");
+    }//GEN-LAST:event_EliminarButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,11 +358,12 @@ public class VistaSeleccion extends javax.swing.JFrame {
     private javax.swing.JButton CancelarButton;
     private javax.swing.JButton ConectarButton;
     private javax.swing.JLabel ContraselaLabel;
-    private javax.swing.JPasswordField ContraseñaField;
     private javax.swing.JComboBox<String> DNSBox;
     private javax.swing.JLabel DNSLabel;
+    private javax.swing.JButton EliminarButton;
     private javax.swing.JButton Exitbutton;
     private javax.swing.JButton MinimizarButton;
+    private javax.swing.JPasswordField PasswordField;
     private javax.swing.JLabel ServicioLabel;
     private javax.swing.JTextField ServicioTextField;
     private javax.swing.JLabel TextoConexion;
