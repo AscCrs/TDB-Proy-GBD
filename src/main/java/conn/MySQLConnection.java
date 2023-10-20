@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package conn;
-import static java.lang.StringTemplate.STR;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import conn.Conexion;
 
 /**
  *
@@ -16,30 +17,20 @@ import java.sql.ResultSet;
  */
 public class MySQLConnection {
     // Configura tus credenciales y detalles de conexión
-    private static String ipConn = "";
-    private static String portConn = "";
-    private static String strStatement;
+    private Conexion conn;
+    private static String strStatement = "";
     private String schemaName;
-    
-    private static final String URL = "jdbc:mysql://"+ ipConn + ":" + portConn + "/";
-    private static final String USER = "root";
-    private static final String PASSWORD = "useradmin";
-    
     private static Connection connection; 
     private static Statement statement;
-    
-    public void setIp(String ip) {
-        this.ipConn = ip;
-    }
-    
-    public void setPort(String port) {
-        this.portConn = port;
-    }
-    
+
     public void setSchema(String nombre) {
         this.schemaName = nombre;
     }
-    
+
+    public void setConnection(Conexion conn) {
+        this.conn = conn;
+    }
+
     public String getStatement() {
         return this.strStatement;
     }
@@ -54,7 +45,7 @@ public class MySQLConnection {
             
             System.out.println("Se creo correctamente el schema: " + this.schemaName);
         } catch (SQLException e) {
-            System.err.print("Error al crear el schema: " + e.getMessage());
+            System.err.println("Error al crear el schema: " + e.getMessage());
         }
     }
     
@@ -88,11 +79,13 @@ public class MySQLConnection {
     // Método para establecer la conexión a la base de datos
     public void openConnection() throws SQLException {
         try {
+            Connections conexiones = new Connections();
             if (connection == null || connection.isClosed()) {
                 Class.forName("com.mysql.cj.jdbc.Driver"); // Carga el controlador JDBC
-                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                connection = DriverManager.getConnection(conn.url, conn.user, conn.password);
                 statement = connection.createStatement();
                 System.out.println("Conexión exitosa a la base de datos MySQL.");
+                conexiones.agregarConexion(conn);
             }
         } catch (ClassNotFoundException e) {
             System.err.println("Error al cargar el controlador JDBC: " + e.getMessage());

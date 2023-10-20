@@ -1,5 +1,8 @@
 pom.xml
 nbactions.xml
+connections.json
 
-target/classes/
+target/classes
+
+.idea
 

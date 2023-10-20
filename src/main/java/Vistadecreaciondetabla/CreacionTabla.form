@@ -612,6 +612,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="NombreEsquema">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NombreEsquemaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="CotejamientoBox">
       <Properties>
