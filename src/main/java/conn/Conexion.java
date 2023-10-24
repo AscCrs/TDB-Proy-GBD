@@ -9,6 +9,7 @@ package conn;
  * @author crist
  */
 public class Conexion {
+
     public String nombreCon = "";
     public String tipo = "mysql", ip = "127.0.0.1", port = "3306", url;
     public String user = "root";
@@ -17,7 +18,7 @@ public class Conexion {
     public Conexion() {
 
     }
-    
+
     public void setNombreCon(String nombre) {
         this.nombreCon = nombre;
     }

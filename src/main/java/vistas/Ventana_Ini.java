@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
- 
 
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.HashSet;
 import java.util.Set;
 import conn.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
  * @author chris
  */
 public class Ventana_Ini extends javax.swing.JFrame {
+
     private Conexion conn;
 
     /**
@@ -27,17 +29,18 @@ public class Ventana_Ini extends javax.swing.JFrame {
      */
     public Ventana_Ini() {
         initComponents();
-     //   setIconImage(getIconImage());
-       this.setLocationRelativeTo(null);
-       TextPrompt placeDns = new TextPrompt("Ingrese la DNS", dnsTextbox);
-       TextPrompt placeHost = new TextPrompt("Ingrese el Host", hostTextbox);
-       TextPrompt placePort= new TextPrompt("Ingrese la puerto", portTextbox);
-       TextPrompt placeusr = new TextPrompt("Ingrese su Usu", usuTextbox);
-       TextPrompt placecon = new TextPrompt("Ingrese su contraseña", contraTextbox);
+        //   setIconImage(getIconImage());
+        this.setLocationRelativeTo(null);
+        TextPrompt placeDns = new TextPrompt("Ingrese la DNS", dnsTextbox);
+        TextPrompt placeHost = new TextPrompt("Ingrese el Host", hostTextbox);
+        TextPrompt placePort = new TextPrompt("Ingrese la puerto", portTextbox);
+        TextPrompt placeSchema = new TextPrompt("Ingrese el nombre del esquema", schTextBox);
+        TextPrompt placeusr = new TextPrompt("Ingrese su Usu", usuTextbox);
+        TextPrompt placecon = new TextPrompt("Ingrese su contraseña", contraTextbox);
     }
 
     //Icono del Jframe
-   /*@Override
+    /*@Override
     public Image getIconImage(){
     Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Pictures/Logo.png"));
     return retValue;
@@ -74,6 +77,8 @@ public class Ventana_Ini extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         conexionesBtn = new javax.swing.JButton();
+        schTextBox = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         TextoConexion.setText("Selecionar Conexión");
 
@@ -242,32 +247,44 @@ public class Ventana_Ini extends javax.swing.JFrame {
             }
         });
 
+        schTextBox.setForeground(new java.awt.Color(153, 153, 153));
+        schTextBox.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                schTextBoxFocusGained(evt);
+            }
+        });
+        schTextBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schTextBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Esquema");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(connectBtn))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel5)))
+                        .addGap(4, 4, 4)
+                        .addComponent(connectBtn))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(schTextBox)
+                    .addComponent(contraTextbox, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(conexionesBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
@@ -276,10 +293,8 @@ public class Ventana_Ini extends javax.swing.JFrame {
                     .addComponent(dnsTextbox, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(portTextbox, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(hostTextbox, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(usuTextbox, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(contraTextbox, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(usuTextbox))
                 .addGap(76, 76, 76))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,15 +316,19 @@ public class Ventana_Ini extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(portTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(schTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(usuTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(contraTextbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connectBtn)
                     .addComponent(cancelBtn)
@@ -342,7 +361,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
         /*if(jTextField1.getText().equals("Ingrese Usuario"))
         {
             jTextfield1.Set<String> hashSet = new HashSet<String>();
-            
+
         }*/
     }//GEN-LAST:event_usuTextboxFocusGained
 
@@ -375,7 +394,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
         // TODO add your handling code here:
         if (this.conexItem1.getSelectedItem().equals("JDBC MySQL")) {
-            try { 
+            try {
                 setSQLConn();
             } catch (SQLException ex) {
                 Logger.getLogger(Ventana_Ini.class.getName()).log(Level.SEVERE, null, ex);
@@ -395,25 +414,58 @@ public class Ventana_Ini extends javax.swing.JFrame {
         conexiones.setVisible(true);
     }//GEN-LAST:event_conexionesBtnActionPerformed
 
+    private void schTextBoxFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_schTextBoxFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schTextBoxFocusGained
+
+    private void schTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schTextBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_schTextBoxActionPerformed
+
     private void setSQLConn() throws SQLException {
         conn = new Conexion();
-        if ((this.hostTextbox.getText().equals("")) && (this.portTextbox.getText().equals(""))) this.conn.setURL();
-        else this.conn.setURL("mysql", this.hostTextbox.getText(), this.portTextbox.getText());
+        if ((this.hostTextbox.getText().equals("")) && (this.portTextbox.getText().equals(""))) {
+            this.conn.setURL();
+        } else {
+            this.conn.setURL("mysql", this.hostTextbox.getText(), this.portTextbox.getText());
+        }
         if (!(this.usuTextbox.getText().equals(""))) {
             this.conn.setUser(this.usuTextbox.getText());
-            if (!(this.contraTextbox.getText().equals(""))) this.conn.setPassword(this.contraTextbox.getText());
+            if (!(this.contraTextbox.getText().equals(""))) {
+                this.conn.setPassword(this.contraTextbox.getText());
+            }
         }
         this.conn.setNombreCon(this.dnsTextbox.getText());
-        
+
         MySQLConnection conexion = new MySQLConnection();
         conexion.setConnection(this.conn);
         conexion.openConnection();
     }
-    
+
     private void setPostConn() {
-        
+        String url = "jdbc:postgresql://" + this.hostTextbox.getText() + ":" + this.portTextbox.getText() + "/" + this.schTextBox.getText();
+        String user = this.usuTextbox.getText();
+        String pass = this.contraTextbox.getText();
+        try {
+            // We register the PostgreSQL driver
+            // Registramos el driver de PostgresSQL
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Error al registrar el driver de PostgreSQL: " + ex);
+            }
+            Connection connection = null;
+            // Database connect
+            // Conectamos con la base de datos
+            connection = DriverManager.getConnection(url, user, pass);
+
+            boolean valid = connection.isValid(1000);
+            System.out.println(valid ? "Conexion con PostgreSQL establecida" : "Conexion con PostgreSQL rechazada");
+        } catch (java.sql.SQLException sqle) {
+            System.out.println("Error: " + sqle);
+        }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -421,7 +473,7 @@ public class Ventana_Ini extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -469,9 +521,11 @@ public class Ventana_Ini extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField portTextbox;
+    private javax.swing.JTextField schTextBox;
     private javax.swing.JTextField usuTextbox;
     // End of variables declaration//GEN-END:variables
 }
