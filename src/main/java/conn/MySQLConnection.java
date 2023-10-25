@@ -59,21 +59,40 @@ public class MySQLConnection {
             System.err.print("Error al crear la tabla: " + e.getMessage());
         }
     }
-    
-    // Metodo para mostrar los esquemas disponibles
-    public void showSchemas() {
+
+    public String showTables(){
+        String tableName = "";
         try {
-            String createSchemaSQL = "SHOW SCHEMAS";
-            ResultSet resultSet = statement.executeQuery(createSchemaSQL);
-            
-            System.out.println("Los Schema encontrados, son los siguientes: ");
+            String showTableSQL = "SHOW TABLES";
+            ResultSet resultSet = statement.executeQuery(showTableSQL);
+
+            System.out.println("Las tablas encontradas, son las siguientes: ");
             while (resultSet.next()) {
-                String tableName = resultSet.getString(1); // El índice 1 representa la primera columna
-                System.out.println("Tabla: " + tableName);
+                tableName = resultSet.getString(1); // El índice 1 representa la primera columna
+                //System.out.println("Tabla: " + tableName);
             }
         } catch (SQLException e) {
             System.err.print("Error al listar los schema's: " + e.getMessage());
         }
+        return tableName;
+    }
+    
+    // Metodo para mostrar los esquemas disponibles
+    public String showSchemas() {
+        String schemaName = "";
+        try {
+            String createSchemaSQL = "SHOW SCHEMAS";
+            ResultSet resultSet = statement.executeQuery(createSchemaSQL);
+
+            System.out.println("Los Schema encontrados, son los siguientes: ");
+            while (resultSet.next()) {
+                schemaName = resultSet.getString(1); // El índice 1 representa la primera columna
+                //System.out.println("Tabla: " + tableName);
+            }
+        } catch (SQLException e) {
+            System.err.print("Error al listar los schema's: " + e.getMessage());
+        }
+        return schemaName;
     }
     
     // Método para establecer la conexión a la base de datos
