@@ -9,14 +9,14 @@ import vistas.TextPrompt;
  * @author Brian
  */ 
 //probando clase de creeacion de tbala
-public class CreacionTabla extends javax.swing.JFrame {
+public class CreacionEsquema extends javax.swing.JFrame {
 DefaultListModel hardawre = new DefaultListModel();
-//private VistaTabla VistaTabla;
+private CreacionTabla VistaTabla;
     private DefaultListModel<String> listaModelo;
     /**
      * Creates new form CreacionTabla
      */
-    public CreacionTabla() {
+    public CreacionEsquema() {
         initComponents();
         hardawre=new DefaultListModel();
         ListG.setModel(hardawre);
@@ -26,11 +26,8 @@ DefaultListModel hardawre = new DefaultListModel();
         TextPrompt placeNE= new TextPrompt("Nombre del esquema",NombreEsquema);
        
     }
-  CreacionTabla(String elementoSeleccionado) {
-        initComponents();
-        
     
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,7 +127,7 @@ DefaultListModel hardawre = new DefaultListModel();
         ESQLabel.setBackground(new java.awt.Color(102, 51, 0));
         ESQLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ESQLabel.setForeground(new java.awt.Color(255, 255, 255));
-        ESQLabel.setText("Tabla");
+        ESQLabel.setText("    Esquemas");
 
         javax.swing.GroupLayout ESQPanelLayout = new javax.swing.GroupLayout(ESQPanel);
         ESQPanel.setLayout(ESQPanelLayout);
@@ -184,7 +181,7 @@ DefaultListModel hardawre = new DefaultListModel();
 
         jScrollPane1.setViewportView(ListG);
 
-        AbrirT.setText("Abrir Tabla");
+        AbrirT.setText("Abrir BD");
         AbrirT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AbrirTActionPerformed(evt);
@@ -351,14 +348,16 @@ DefaultListModel hardawre = new DefaultListModel();
             newframe.setVisible(true);
             
             this.dispose();
+            
     }//GEN-LAST:event_CrearEsqLabelMouseClicked
 
     private void AbrirTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirTActionPerformed
         // TODO add your handling code here:
            String elementoSeleccionado = ListG.getSelectedValue();
     if (elementoSeleccionado != null) {
-   //     VistaTabla = new VistaTabla(elementoSeleccionado);
-       // VistaTabla.setVisible(true);
+        VistaTabla = new CreacionTabla(elementoSeleccionado);
+        VistaTabla.setVisible(true);
+        setVisible(false);
     }
     }//GEN-LAST:event_AbrirTActionPerformed
 
@@ -379,19 +378,20 @@ DefaultListModel hardawre = new DefaultListModel();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new CreacionTabla().setVisible(true);
+            new CreacionEsquema().setVisible(true);
         });
     }
 
