@@ -40,7 +40,7 @@ public class MySQLConnection {
         try {
             String createSchemaSQL = "DROP " + this.schemaName;
             statement.executeUpdate(createSchemaSQL);
-            createSchemaSQL += "CREATE SCHEMA IF NOT EXISTS " + this.schemaName;
+            createSchemaSQL += "CREATE SCHEMA IF NOT EXISTS " + this.schemaName + " CHARACTER SET utf8";
             statement.executeUpdate(createSchemaSQL);
             
             System.out.println("Se creo correctamente el schema: " + this.schemaName);
@@ -52,7 +52,7 @@ public class MySQLConnection {
     // Metodo para crear una tabla
     public void createTable(String nombreTabla) {
         try {  
-            this.strStatement = "CREATE TABLE IF NOT EXIST" + nombreTabla;
+            this.strStatement = "CREATE TABLE IF NOT EXISTS" + nombreTabla;
             statement.executeUpdate(this.strStatement);
             System.out.println("Se creo correctamente la tabla");
         } catch (SQLException e) {
