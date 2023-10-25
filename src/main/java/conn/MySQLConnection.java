@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import conn.Conexion;
+import java.sql.DatabaseMetaData;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -61,19 +64,86 @@ public class MySQLConnection {
     }
     
     // Metodo para mostrar los esquemas disponibles
-    public void showSchemas() {
+    public List<String> showSchemas() {
+        List<String> schemaNames = new ArrayList<>();
         try {
             String createSchemaSQL = "SHOW SCHEMAS";
             ResultSet resultSet = statement.executeQuery(createSchemaSQL);
-            
+
             System.out.println("Los Schema encontrados, son los siguientes: ");
             while (resultSet.next()) {
-                String tableName = resultSet.getString(1); // El índice 1 representa la primera columna
-                System.out.println("Tabla: " + tableName);
+                String schemaName = resultSet.getString(1);
+                schemaNames.add(schemaName);
+                System.out.println("Schema: " + schemaName);
             }
         } catch (SQLException e) {
             System.err.print("Error al listar los schema's: " + e.getMessage());
         }
+        return schemaNames;
+    }
+    
+    public void createIndex(String tableName, String indexName, String columns) {
+        try {
+            String createIndexSQL = "CREATE INDEX " + indexName + " ON " + tableName + " (" + columns + ")";
+            statement.executeUpdate(createIndexSQL);
+            System.out.println("Se creó correctamente el índice: " + indexName + " en la tabla: " + tableName);
+        } catch (SQLException e) {
+            System.err.print("Error al crear el índice: " + e.getMessage());
+        }
+    }
+    
+    public void createTable(String nombreTabla, List<String> atributos, List<String> llavesPrimarias, List<String> llavesForaneas) {
+        try {
+            StringBuilder createTableSQL = new StringBuilder("CREATE TABLE IF NOT EXISTS " + nombreTabla + " (");
+
+            // Agregar atributos
+            for (String atributo : atributos) {
+                createTableSQL.append(atributo).append(", ");
+            }
+
+            // Agregar llaves primarias
+            if (!llavesPrimarias.isEmpty()) {
+                createTableSQL.append("PRIMARY KEY (");
+                for (String primaryKey : llavesPrimarias) {
+                    createTableSQL.append(primaryKey).append(", ");
+                }
+                createTableSQL.setLength(createTableSQL.length() - 2);
+                createTableSQL.append("), ");
+            }
+
+            // Agregar llaves foraneas
+            for (String foreignKey : llavesForaneas) {
+                createTableSQL.append(foreignKey).append(", ");
+            }
+
+            // Eliminar la coma final
+            createTableSQL.setLength(createTableSQL.length() - 2);
+
+            createTableSQL.append(")");
+
+            statement.executeUpdate(createTableSQL.toString());
+            System.out.println("Se creó correctamente la tabla: " + nombreTabla);
+        } catch (SQLException e) {
+            System.err.print("Error al crear la tabla: " + e.getMessage());
+        }
+    }
+    
+    public List<String> listTablesInDatabase(String databaseName) {
+        List<String> tableNames = new ArrayList<>();
+
+        try {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet resultSet = metaData.getTables(databaseName, null, null, new String[]{"TABLE"});
+            
+            while (resultSet.next()) {
+                String tableName = resultSet.getString("TABLE_NAME");
+                tableNames.add(tableName);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al listar las tablas: " + e.getMessage());
+        }
+
+        return tableNames;
     }
     
     // Método para establecer la conexión a la base de datos

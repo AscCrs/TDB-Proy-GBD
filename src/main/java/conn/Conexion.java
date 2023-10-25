@@ -17,7 +17,7 @@ public class Conexion {
     public Conexion() {
 
     }
-    
+
     public void setNombreCon(String nombre) {
         this.nombreCon = nombre;
     }

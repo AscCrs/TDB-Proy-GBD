@@ -9,27 +9,25 @@ import vistas.TextPrompt;
  * @author Brian
  */ 
 //probando clase de creeacion de tbala
-public class CreacionTabla extends javax.swing.JFrame {
+public class CreacionEsquema extends javax.swing.JFrame {
 DefaultListModel hardawre = new DefaultListModel();
-//private VistaTabla VistaTabla;
+private CreacionTabla VistaTabla;
     private DefaultListModel<String> listaModelo;
     /**
      * Creates new form CreacionTabla
      */
-    public CreacionTabla() {
+    public CreacionEsquema() {
         initComponents();
         hardawre=new DefaultListModel();
         ListG.setModel(hardawre);
         listaModelo = new DefaultListModel<>();
         ListG.setModel(listaModelo);
         this.setLocationRelativeTo(null);
+        TextPrompt placeNE= new TextPrompt("Nombre del esquema",NombreEsquema);
        
     }
-  CreacionTabla(String elementoSeleccionado) {
-        initComponents();
-        
     
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,14 +50,12 @@ DefaultListModel hardawre = new DefaultListModel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListG = new javax.swing.JList<>();
         AbrirT = new javax.swing.JButton();
+        TitutloBSD = new javax.swing.JLabel();
+        CrearEsquemaField = new javax.swing.JTextField();
+        NombreEsquema = new javax.swing.JTextField();
+        CotejamientoBox = new javax.swing.JComboBox<>();
+        CrearBoton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jSpinner1 = new javax.swing.JSpinner();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        NombreEsquema1 = new javax.swing.JTextField();
-        CrearBoton1 = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -131,7 +127,7 @@ DefaultListModel hardawre = new DefaultListModel();
         ESQLabel.setBackground(new java.awt.Color(102, 51, 0));
         ESQLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ESQLabel.setForeground(new java.awt.Color(255, 255, 255));
-        ESQLabel.setText("  Esquemas");
+        ESQLabel.setText("    Esquemas");
 
         javax.swing.GroupLayout ESQPanelLayout = new javax.swing.GroupLayout(ESQPanel);
         ESQPanel.setLayout(ESQPanelLayout);
@@ -185,7 +181,7 @@ DefaultListModel hardawre = new DefaultListModel();
 
         jScrollPane1.setViewportView(ListG);
 
-        AbrirT.setText("Abrir Tabla");
+        AbrirT.setText("Abrir BD");
         AbrirT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AbrirTActionPerformed(evt);
@@ -221,47 +217,38 @@ DefaultListModel hardawre = new DefaultListModel();
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        TitutloBSD.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        TitutloBSD.setText("Bases de datos");
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Nombre de la tabla");
-
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Número de columnas");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        NombreEsquema1.addActionListener(new java.awt.event.ActionListener() {
+        CrearEsquemaField.setEditable(false);
+        CrearEsquemaField.setBackground(new java.awt.Color(204, 204, 204));
+        CrearEsquemaField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        CrearEsquemaField.setText("+Crear nuevo esquema");
+        CrearEsquemaField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NombreEsquema1ActionPerformed(evt);
+                CrearEsquemaFieldActionPerformed(evt);
             }
         });
 
-        CrearBoton1.setBackground(new java.awt.Color(0, 102, 0));
-        CrearBoton1.setForeground(new java.awt.Color(255, 255, 255));
-        CrearBoton1.setText("Crear");
-        CrearBoton1.addActionListener(new java.awt.event.ActionListener() {
+        NombreEsquema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CrearBoton1ActionPerformed(evt);
+                NombreEsquemaActionPerformed(evt);
+            }
+        });
+
+        CotejamientoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "utf8mb4_unicode_ci" }));
+        CotejamientoBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CotejamientoBoxActionPerformed(evt);
+            }
+        });
+
+        CrearBoton.setBackground(new java.awt.Color(0, 102, 0));
+        CrearBoton.setForeground(new java.awt.Color(255, 255, 255));
+        CrearBoton.setText("Crear");
+        CrearBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearBotonActionPerformed(evt);
             }
         });
 
@@ -277,22 +264,23 @@ DefaultListModel hardawre = new DefaultListModel();
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(CreacionESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CrearEsquemaField)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(NombreEsquema1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(27, 27, 27)
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(CrearBoton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jSeparator2))
+                                .addComponent(TitutloBSD, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(6, 6, 6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(NombreEsquema, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(CotejamientoBox, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -307,16 +295,15 @@ DefaultListModel hardawre = new DefaultListModel();
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(CreacionESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TitutloBSD)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CrearEsquemaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(NombreEsquema1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CrearBoton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(NombreEsquema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CotejamientoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -335,6 +322,25 @@ DefaultListModel hardawre = new DefaultListModel();
         System.exit(0);
     }//GEN-LAST:event_ExitbuttonActionPerformed
 
+    private void CrearEsquemaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearEsquemaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CrearEsquemaFieldActionPerformed
+
+    private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
+ String hard=NombreEsquema.getText();
+ listaModelo.addElement(hard);
+ NombreEsquema.setText("");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CrearBotonActionPerformed
+
+    private void CotejamientoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CotejamientoBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CotejamientoBoxActionPerformed
+
+    private void NombreEsquemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreEsquemaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NombreEsquemaActionPerformed
+
     private void CrearEsqLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CrearEsqLabelMouseClicked
         // TODO add your handling code here:
             CreacionEsquema newframe = new CreacionEsquema();
@@ -342,24 +348,18 @@ DefaultListModel hardawre = new DefaultListModel();
             newframe.setVisible(true);
             
             this.dispose();
+            
     }//GEN-LAST:event_CrearEsqLabelMouseClicked
 
     private void AbrirTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirTActionPerformed
         // TODO add your handling code here:
            String elementoSeleccionado = ListG.getSelectedValue();
     if (elementoSeleccionado != null) {
-   //     VistaTabla = new VistaTabla(elementoSeleccionado);
-       // VistaTabla.setVisible(true);
+        VistaTabla = new CreacionTabla(elementoSeleccionado);
+        VistaTabla.setVisible(true);
+        setVisible(false);
     }
     }//GEN-LAST:event_AbrirTActionPerformed
-
-    private void NombreEsquema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreEsquema1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NombreEsquema1ActionPerformed
-
-    private void CrearBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBoton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CrearBoton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -378,28 +378,31 @@ DefaultListModel hardawre = new DefaultListModel();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreacionTabla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreacionEsquema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new CreacionTabla().setVisible(true);
+            new CreacionEsquema().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AbrirT;
     private javax.swing.JPanel BarraSuperior;
+    private javax.swing.JComboBox<String> CotejamientoBox;
     private javax.swing.JPanel CreacionESQPanel;
-    private javax.swing.JButton CrearBoton1;
+    private javax.swing.JButton CrearBoton;
     private javax.swing.JLabel CrearEsqLabel;
+    private javax.swing.JTextField CrearEsquemaField;
     private javax.swing.JLabel ESQLabel;
     private javax.swing.JPanel ESQPanel;
     private javax.swing.JButton Exitbutton;
@@ -408,13 +411,9 @@ DefaultListModel hardawre = new DefaultListModel();
     private javax.swing.JPanel InicioPanel;
     private javax.swing.JList<String> ListG;
     private javax.swing.JButton MinimizarButton;
-    private javax.swing.JTextField NombreEsquema1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField NombreEsquema;
+    private javax.swing.JLabel TitutloBSD;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSpinner jSpinner1;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,7 @@
 
 package Vistadecreaciondetabla;
 
+import javax.swing.DefaultListModel;
 import vistas.TextPrompt;
 
 /**
@@ -8,17 +9,24 @@ import vistas.TextPrompt;
  * @author Brian
  */ 
 //probando clase de creeacion de tbala
-public class Tablas_Views extends javax.swing.JFrame {
-
+public class TablasVista extends javax.swing.JFrame {
+DefaultListModel hardawre = new DefaultListModel();
+private CreacionTabla VistaTabla;
+    private DefaultListModel<String> listaModelo;
     /**
      * Creates new form CreacionTabla
      */
-    public Tablas_Views() {
+    public TablasVista() {
         initComponents();
+        hardawre=new DefaultListModel();
+        ListG.setModel(hardawre);
+        listaModelo = new DefaultListModel<>();
+        ListG.setModel(listaModelo);
         this.setLocationRelativeTo(null);
         TextPrompt placeNE= new TextPrompt("Nombre del esquema",NombreEsquema);
        
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,8 +37,6 @@ public class Tablas_Views extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         BarraSuperior = new javax.swing.JPanel();
         GBDLabel = new javax.swing.JLabel();
         MinimizarButton = new javax.swing.JButton();
@@ -41,21 +47,20 @@ public class Tablas_Views extends javax.swing.JFrame {
         InicioLabel = new javax.swing.JLabel();
         CreacionESQPanel = new javax.swing.JPanel();
         CrearEsqLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ListG = new javax.swing.JList<>();
+        AbrirT = new javax.swing.JButton();
         NombreEsquema = new javax.swing.JTextField();
         CrearBoton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
 
         BarraSuperior.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -169,22 +174,48 @@ public class Tablas_Views extends javax.swing.JFrame {
         CrearEsqLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         CrearEsqLabel.setForeground(new java.awt.Color(255, 255, 255));
         CrearEsqLabel.setText("°-Crear Esquema");
+        CrearEsqLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CrearEsqLabelMouseClicked(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(ListG);
+
+        AbrirT.setText("Abrir BD");
+        AbrirT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AbrirTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout CreacionESQPanelLayout = new javax.swing.GroupLayout(CreacionESQPanel);
         CreacionESQPanel.setLayout(CreacionESQPanelLayout);
         CreacionESQPanelLayout.setHorizontalGroup(
             CreacionESQPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CreacionESQPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(CrearEsqLabel)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGroup(CreacionESQPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(CreacionESQPanelLayout.createSequentialGroup()
+                        .addGroup(CreacionESQPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(CreacionESQPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(CrearEsqLabel))
+                            .addGroup(CreacionESQPanelLayout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(AbrirT)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         CreacionESQPanelLayout.setVerticalGroup(
             CreacionESQPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CreacionESQPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(CrearEsqLabel)
-                .addContainerGap(373, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AbrirT)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         NombreEsquema.addActionListener(new java.awt.event.ActionListener() {
@@ -201,8 +232,6 @@ public class Tablas_Views extends javax.swing.JFrame {
                 CrearBotonActionPerformed(evt);
             }
         });
-
-        jButton1.setText("Estructura");
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -239,29 +268,28 @@ public class Tablas_Views extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(BarraSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(InicioPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(CreacionESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NombreEsquema, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                                .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(ESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InicioPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator1)))
-                .addGap(31, 31, 31))
+                        .addComponent(CreacionESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(NombreEsquema, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jSeparator1))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,13 +298,13 @@ public class Tablas_Views extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(InicioPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ESQPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                    .addComponent(ESQPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CreacionESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(CreacionESQPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -284,7 +312,8 @@ public class Tablas_Views extends javax.swing.JFrame {
                             .addComponent(CrearBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -302,13 +331,33 @@ public class Tablas_Views extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_ExitbuttonActionPerformed
 
-    private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
+    private void CrearEsqLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CrearEsqLabelMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_CrearBotonActionPerformed
+            TablasVista newframe = new TablasVista();
+            
+            newframe.setVisible(true);
+            
+            this.dispose();
+            
+    }//GEN-LAST:event_CrearEsqLabelMouseClicked
+
+    private void AbrirTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirTActionPerformed
+        // TODO add your handling code here:
+           String elementoSeleccionado = ListG.getSelectedValue();
+    if (elementoSeleccionado != null) {
+        VistaTabla = new CreacionTabla(elementoSeleccionado);
+        VistaTabla.setVisible(true);
+        setVisible(false);
+    }
+    }//GEN-LAST:event_AbrirTActionPerformed
 
     private void NombreEsquemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreEsquemaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NombreEsquemaActionPerformed
+
+    private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CrearBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,24 +376,27 @@ public class Tablas_Views extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Tablas_Views.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Tablas_Views.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Tablas_Views.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Tablas_Views.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TablasVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Tablas_Views().setVisible(true);
+            new TablasVista().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AbrirT;
     private javax.swing.JPanel BarraSuperior;
     private javax.swing.JPanel CreacionESQPanel;
     private javax.swing.JButton CrearBoton;
@@ -355,15 +407,14 @@ public class Tablas_Views extends javax.swing.JFrame {
     private javax.swing.JLabel GBDLabel;
     private javax.swing.JLabel InicioLabel;
     private javax.swing.JPanel InicioPanel;
+    private javax.swing.JList<String> ListG;
     private javax.swing.JButton MinimizarButton;
     private javax.swing.JTextField NombreEsquema;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
