@@ -10,6 +10,7 @@ package conn;
  * @author crist
  */
 
+// Bibliotecas para trabajar con el archivo Json
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,7 +33,7 @@ public class Connections {
         File file = new File(fileName);
         
         if (file.exists()) {
-            System.out.println("El archivo JSON ya existe.");
+            System.out.println("Archivo JSON recuperado exitosamente.");
         } else {
             // Crear el archivo JSON y escribir datos de ejemplo
             try (FileWriter writer = new FileWriter(fileName)) {

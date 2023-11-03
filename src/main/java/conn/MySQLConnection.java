@@ -44,8 +44,7 @@ public class MySQLConnection {
             String createSchemaSQL = "DROP " + this.schemaName;
             statement.executeUpdate(createSchemaSQL);
             createSchemaSQL += "CREATE SCHEMA IF NOT EXISTS " + this.schemaName;
-            statement.executeUpdate(createSchemaSQL);
-            
+            statement.executeUpdate(createSchemaSQL);        
             System.out.println("Se creo correctamente el schema: " + this.schemaName);
         } catch (SQLException e) {
             System.err.println("Error al crear el schema: " + e.getMessage());
@@ -64,17 +63,14 @@ public class MySQLConnection {
     }
     
     // Metodo para mostrar los esquemas disponibles
-    public List<String> showSchemas() {
+    public List<String> getSchemasName() {
         List<String> schemaNames = new ArrayList<>();
         try {
             String createSchemaSQL = "SHOW SCHEMAS";
             ResultSet resultSet = statement.executeQuery(createSchemaSQL);
-
-            System.out.println("Los Schema encontrados, son los siguientes: ");
             while (resultSet.next()) {
                 String schemaName = resultSet.getString(1);
                 schemaNames.add(schemaName);
-                System.out.println("Schema: " + schemaName);
             }
         } catch (SQLException e) {
             System.err.print("Error al listar los schema's: " + e.getMessage());

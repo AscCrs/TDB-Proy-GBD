@@ -1,5 +1,6 @@
 package vistas;
 
+import Vistadecreaciondetabla.CreacionEsquema;
 import conn.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -289,6 +290,10 @@ public class VistaSeleccion extends javax.swing.JFrame {
         
         try {
             conn.openConnection();
+            
+            this.setVisible(false);
+            CreacionEsquema openSchemas = new CreacionEsquema();
+            openSchemas.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(VistaSeleccion.class.getName()).log(Level.SEVERE, null, ex);
         }
