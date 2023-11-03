@@ -181,7 +181,7 @@ private CreacionTabla VistaTabla;
 
         jScrollPane1.setViewportView(ListG);
 
-        AbrirT.setText("Abrir BD");
+        AbrirT.setText("Usar Esequema");
         AbrirT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AbrirTActionPerformed(evt);
@@ -202,7 +202,7 @@ private CreacionTabla VistaTabla;
                                 .addComponent(CrearEsqLabel))
                             .addGroup(CreacionESQPanelLayout.createSequentialGroup()
                                 .addGap(17, 17, 17)
-                                .addComponent(AbrirT)))
+                                .addComponent(AbrirT, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
