@@ -88,6 +88,20 @@ public class MySQLConnection {
         }
     }
     
+    public boolean schemaExist(String name) {
+        try {
+            DatabaseMetaData dbmd = connection.getMetaData();
+            ResultSet rs = dbmd.getSchemas();
+            while (rs.next()) {
+                String schemaName = rs.getString(1);
+                if (schemaName.equals(name)) return true;
+            }
+        } catch (SQLException e) {
+            System.err.print("Error al buscar el schema Seleccionado: " + e.getMessage());
+        }
+        return false;
+    }
+    
     public void createTable(String nombreTabla, List<String> atributos, List<String> llavesPrimarias, List<String> llavesForaneas) {
         try {
             StringBuilder createTableSQL = new StringBuilder("CREATE TABLE IF NOT EXISTS " + nombreTabla + " (");

@@ -1,6 +1,9 @@
 
 package Vistadecreaciondetabla;
 
+import conn.Connections;
+import conn.MySQLConnection;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import vistas.TextPrompt;
 
@@ -13,6 +16,7 @@ public class CreacionEsquema extends javax.swing.JFrame {
 DefaultListModel hardawre = new DefaultListModel();
 private CreacionTabla VistaTabla;
     private DefaultListModel<String> listaModelo;
+    MySQLConnection conexiones = new MySQLConnection();
     /**
      * Creates new form CreacionTabla
      */
@@ -24,9 +28,16 @@ private CreacionTabla VistaTabla;
         ListG.setModel(listaModelo);
         this.setLocationRelativeTo(null);
         TextPrompt placeNE= new TextPrompt("Nombre del esquema",NombreEsquema);
-       
+        updateList();
     }
     
+    public void updateList() {
+        List <String> schemaNames;
+        schemaNames = conexiones.getSchemasName();
+        for (String schema: schemaNames) {
+            this.listaModelo.addElement(schema);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -327,10 +338,8 @@ private CreacionTabla VistaTabla;
     }//GEN-LAST:event_CrearEsquemaFieldActionPerformed
 
     private void CrearBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBotonActionPerformed
- String hard=NombreEsquema.getText();
- listaModelo.addElement(hard);
- NombreEsquema.setText("");
-        // TODO add your handling code here:
+        
+        updateList();
     }//GEN-LAST:event_CrearBotonActionPerformed
 
     private void CotejamientoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CotejamientoBoxActionPerformed
@@ -353,14 +362,19 @@ private CreacionTabla VistaTabla;
 
     private void AbrirTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirTActionPerformed
         // TODO add your handling code here:
-           String elementoSeleccionado = ListG.getSelectedValue();
-    if (elementoSeleccionado != null) {
-        VistaTabla = new CreacionTabla(elementoSeleccionado);
-        VistaTabla.setVisible(true);
-        setVisible(false);
-    }
+        String elementoSeleccionado = ListG.getSelectedValue();
+        if (elementoSeleccionado != null) {
+            VistaTabla = new CreacionTabla(elementoSeleccionado);
+            VistaTabla.setVisible(true);
+            setVisible(false);
+        }
     }//GEN-LAST:event_AbrirTActionPerformed
 
+    public void crearSchema() {
+        conexiones.setSchema(this.NombreEsquema.getText());
+        
+    };
+    
     /**
      * @param args the command line arguments
      */
