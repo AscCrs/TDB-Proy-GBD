@@ -45,6 +45,9 @@ public class MySQLConnection {
             statement.executeUpdate(createSchemaSQL);
             createSchemaSQL += "CREATE SCHEMA IF NOT EXISTS " + this.schemaName;
             statement.executeUpdate(createSchemaSQL);        
+            createSchemaSQL += "CREATE SCHEMA IF NOT EXISTS " + this.schemaName + " CHARACTER SET utf8";
+            statement.executeUpdate(createSchemaSQL);
+            
             System.out.println("Se creo correctamente el schema: " + this.schemaName);
         } catch (SQLException e) {
             System.err.println("Error al crear el schema: " + e.getMessage());
@@ -54,23 +57,46 @@ public class MySQLConnection {
     // Metodo para crear una tabla
     public void createTable(String nombreTabla) {
         try {  
-            this.strStatement = "CREATE TABLE IF NOT EXIST" + nombreTabla;
+            this.strStatement = "CREATE TABLE IF NOT EXISTS" + nombreTabla;
             statement.executeUpdate(this.strStatement);
             System.out.println("Se creo correctamente la tabla");
         } catch (SQLException e) {
             System.err.print("Error al crear la tabla: " + e.getMessage());
         }
     }
+
+    public String showTables(){
+        String tableName = "";
+        try {
+            String showTableSQL = "SHOW TABLES";
+            ResultSet resultSet = statement.executeQuery(showTableSQL);
+
+            System.out.println("Las tablas encontradas, son las siguientes: ");
+            while (resultSet.next()) {
+                tableName = resultSet.getString(1); // El índice 1 representa la primera columna
+                //System.out.println("Tabla: " + tableName);
+            }
+        } catch (SQLException e) {
+            System.err.print("Error al listar los schema's: " + e.getMessage());
+        }
+        return tableName;
+    }
     
     // Metodo para mostrar los esquemas disponibles
     public List<String> getSchemasName() {
         List<String> schemaNames = new ArrayList<>();
+    public String showSchemas() {
+        String schemaName = "";
         try {
             String createSchemaSQL = "SHOW SCHEMAS";
             ResultSet resultSet = statement.executeQuery(createSchemaSQL);
+
+            System.out.println("Los Schema encontrados, son los siguientes: ");
             while (resultSet.next()) {
                 String schemaName = resultSet.getString(1);
                 schemaNames.add(schemaName);
+                schemaName = resultSet.getString(1); // El índice 1 representa la primera columna
+                //System.out.println("Tabla: " + tableName);
             }
         } catch (SQLException e) {
             System.err.print("Error al listar los schema's: " + e.getMessage());
@@ -154,6 +180,7 @@ public class MySQLConnection {
         }
 
         return tableNames;
+        return schemaName;
     }
     
     // Método para establecer la conexión a la base de datos
