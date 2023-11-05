@@ -4,6 +4,7 @@
  */
 package vistas;
 
+import Vistadecreaciondetabla.CreacionEsquema;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.HashSet;
@@ -440,6 +441,10 @@ public class Ventana_Ini extends javax.swing.JFrame {
         MySQLConnection conexion = new MySQLConnection();
         conexion.setConnection(this.conn);
         conexion.openConnection();
+        
+        this.setVisible(false);
+        CreacionEsquema openSchema = new CreacionEsquema();
+        openSchema.setVisible(true);
     }
 
     private void setPostConn() {
